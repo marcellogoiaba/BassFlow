@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+</head>
+
+<body>
+
+<h1> Hello Welcome to Home Page </h1>
+
+
+
+        <% if !current_user.nil? %>
+    <p>Click The link below to send a tweet.</p>
+    <%= link_to "Send a Tweet", new_tweet_path %>
+    <%= link_to "Stream", new_tweet_path %>
+    <% else %>
+    <p>You must log in to send a tweet.</p>
+    <% end %>
+
+
+
+
+
+</body>
+
+
+</html>

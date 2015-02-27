@@ -1,0 +1,325 @@
+<style type="text/css">
+table {
+  width: 100%;
+  border: 1px solid white;
+  text-align: left; }
+th {
+  font-weight: bold;
+  background-color: #9FB6CD;
+  border-bottom: 1px solid white; }
+td,th {
+  padding: 4px 5px; }
+  .scrollable {
+                height: 495px;
+                overflow: auto;
+            }
+  .scrollable1 {
+      height: 456px;
+      overflow: auto;
+    }
+    .recorderUI{
+      text-align: center;
+      width: 100%;
+
+    
+    }
+
+  .span2{
+    text-align: center;
+  }
+  .tweets {
+
+    padding-left: 2%;
+    padding-top: 50px;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    font-family: Century Gothic;
+  }
+
+.odd {
+  background-color: #def; }
+.odd td {
+  border-bottom: 1px solid #cef; }
+  /*DARKEN*/
+.brighten img {
+  -webkit-filter: brightness(100%);
+  -webkit-transition: all 0.1s ease;
+     -moz-transition: all 0.1s ease;
+       -o-transition: all 0.1s ease;
+      -ms-transition: all 0.1s ease;
+          transition: all 0.1s ease;
+}
+ 
+.brighten img:hover {
+  -webkit-filter: brightness(95%);
+
+}
+}
+
+
+  </style>
+
+
+<div class="container">
+
+
+        <div class="row">
+          <div class="span5">
+            <div class="well bs-component">
+              <fieldset>
+                <% if current_user %>
+     <div class = "span2">
+      <div class="brighten pic">
+      <%= link_to image_tag('mytweets.png') , tweets_timeline_path %>
+     
+    </div>
+    </div>
+
+
+
+
+    <div class ="span2">
+       <div class="brighten pic">
+         <%= link_to image_tag('newsfeed.png') , new_tweet_path %>
+      
+    </div>
+    </div>
+    <% end %>
+    
+
+        <div class="tweets"><br />
+            
+          <div class="tweet_text_area">
+
+            <div class="tweet_text">
+              <div class = "scrollable">
+              <% if current_user %>
+                <table>
+                  <tr>
+                    <th><h3>Users</h3></th>
+                    <th><h3>Tweets</h3></th>
+                  </tr>
+                  
+                
+
+                  <% @homeNewsFeed.each do |t| %>
+
+                  
+        
+
+                  <tr>
+
+
+                    <th><img src= "<%= t.user.profile_image_url %>" /></th>
+                    <th><%= t.text %>
+
+                      <%= t.id %>
+                      <div> <%= link_to "Retweet" %>  <%=link_to image_tag("retweet.png", :border => 0)  %> <%=link_to " Reply " %><%=link_to image_tag("mail_reply_all-512.png", :border => 0) %></div></th>
+
+
+                  </tr>
+                  
+                  
+
+                  <% end %>
+                  <% else %>
+
+                  
+                    <br /> <br />
+                    <%=image_tag("twitterLogo.png", :border => 0)%>
+                   </div>
+                   <% end %>
+              </div>
+            </div>
+
+
+
+                </table>
+
+               </div>
+
+
+                </fieldset>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="well bs-component">
+              <fieldset>
+                
+                <h3>SoundCloud Indie Player</h3>
+             
+               <div class="tweets">
+
+                <div id="putTheWidgetHere"></div>
+                <% if current_user %>
+                 <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?visual=true&url=http%3A%2F%2Fapi.soundcloud.com%2Fgroups%2F10037&show_artwork=true&client_id=0d75d3de661d91b3616b291ea5e82abe"></iframe>
+                 
+                  <% else %>
+                  <div class = "scrollable1">
+                  
+                    <%=image_tag("soundcloudLogo.png", :border => 0)%>
+                  </div>
+                  </div>
+
+                  <% end %>           
+               
+                </fieldset>
+            </div>
+          </div>
+          <div class="span3">
+            <div class="well sidebar-nav">
+
+              <% if current_user %>
+                Signed in as  <em><%= current_user.name %>!</em>
+                  <div>
+
+
+                  <%= link_to " Sign out ", signout_path, id: "sign_out" %></div>
+        
+                  <% else %>
+                   <div class="brighten pic">
+
+                  <%= link_to image_tag('twitter.png') , "/auth/twitter", id: "sign_in" %>
+                  </div>
+                  
+                  <% end %>
+
+            </div>
+          </div>
+          <div class="span3">
+            <div clas= "soundcloud">
+            <div class="well sidebar-nav">
+           
+              <% if current_user.nil? %>
+                 <%=image_tag("logintotweet.png", :border => 0)%>
+
+
+             <% else %>
+             <br 
+              <ul class="nav nav-list">
+                <%= form_for :tweet, url: tweets_path, remote:true,  method: :post do |f| %>
+                <%= f.text_area :message , :maxlength => 140 %>
+                <!--%= f.text_area :message, :maxlenght => 40 %-->
+
+                   
+                  <div class="brighten pic">
+                  <%= image_submit_tag ('tweet-button.png') %>
+
+                   </div>
+
+                 
+                    <% end %>
+
+               <% end %>
+
+              </ul>
+            </div><!--/.well -->
+
+
+
+            </div>
+    
+
+
+
+            <div class="well sidebar-nav">
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//connect.soundcloud.com/sdk.js"></script>
+<script>
+  SC.initialize({
+    client_id: "c202b469a633a7a5b15c9e10b5272b78",
+    redirect_uri: "http://connect.soundcloud.com/examples/callback.html"
+  });
+
+  $("#recorderUI.reset #controlButton").live("click", function(e){
+    updateTimer(0);
+    SC.record({
+      start: function(){
+        setRecorderUIState("recording");
+      },
+      progress: function(ms, avgPeak){
+        updateTimer(ms);
+      }
+    });
+    e.preventDefault();
+  });
+
+  $("#recorderUI.recording #controlButton, #recorderUI.playing #controlButton").live("click", function(e){
+    setRecorderUIState("recorded");
+    SC.recordStop();
+    e.preventDefault();
+  });
+
+  $("#recorderUI.recorded #controlButton").live("click", function(e){
+    updateTimer(0);
+    setRecorderUIState("playing");
+    SC.recordPlay({
+      progress: function(ms){
+        updateTimer(ms);
+      },
+      finished: function(){
+        setRecorderUIState("recorded");
+      }
+    });
+    e.preventDefault();
+  });
+
+  $("#reset").live("click", function(e){
+    SC.recordStop();
+    setRecorderUIState("reset");
+    e.preventDefault();
+  });
+
+  $("#upload").live("click", function(e){
+    setRecorderUIState("uploading");
+
+    SC.connect({
+      connected: function(){
+        $("#uploadStatus").html("Uploading...");
+        SC.recordUpload({
+          track: {
+            title: "Untitled Recording",
+            sharing: "private"
+          }
+        }, function(track){
+          $("#uploadStatus").html("Uploaded: <a href='" + track.permalink_url + "'>" + track.permalink_url + "</a>");
+        });
+      }
+    });
+
+    e.preventDefault();
+  });
+
+  function updateTimer(ms){
+    $("#timer").text(SC.Helper.millisecondsToHMS(ms));
+  }
+
+  function setRecorderUIState(state){
+    // state can be reset, recording, recorded, playing, uploading
+    // visibility of buttons is managed via CSS
+    $("#recorderUI").attr("class", state);
+  }
+</script>
+
+<div id="recorderUI" class="reset">
+  <a href="#" id="controlButton" class="record"><span id="timer" class="hidden">0:00</span></a>
+  <div id="otherControls">
+    <a href="#" id="reset" class="button">Reset</a>
+    <a href="#" id="upload" class="button">Upload</a>
+  </div>
+  <div id="uploadStatus"></div>
+</div>
+
+
+            
+            </div><!--/.well -->
+         <div class="well sidebar-nav">
+              <h3>playlist</h3>
+              </ul>
+            </div><!--/.well -->
+      </div><!--/span-->
+ 
+       </div>
+          
+
+    
